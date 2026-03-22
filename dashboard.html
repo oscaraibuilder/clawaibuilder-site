@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oscar HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0A;
+    --card: #111111;
+    --text: #F2F2F0;
+    --muted: #6B6B78;
+    --amber: #F59E0B;
+    --border: #1E1E2E;
+    --blue: #3B82F6;
+    --green: #10B981;
+    --red: #EF4444;
+    --purple: #8B5CF6;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* AUTH SCREEN */
+  #auth-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    flex-direction: column;
+    gap: 24px;
+  }
+  #auth-screen h1 { color: var(--amber); font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; }
+  #auth-screen p { color: var(--muted); font-size: 0.9rem; }
+  #auth-form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
+  #auth-form input {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #auth-form input:focus { border-color: var(--amber); }
+  #auth-form button {
+    background: var(--amber);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  #auth-form button:hover { opacity: 0.85; }
+  #auth-error { color: var(--red); font-size: 0.85rem; text-align: center; display: none; }
+
+  /* DASHBOARD */
+  #dashboard { display: none; }
+
+  /* HEADER */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-logo { color: var(--amber); font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+  .header-updated { color: var(--muted); font-size: 0.8rem; }
+
+  /* MAIN CONTENT */
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+
+  /* STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .stat-label { color: var(--muted); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .stat-value { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+  .stat-icon { font-size: 1.1rem; margin-right: 6px; }
+
+  /* SECTION HEADERS */
+  .section-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 12px;
+    margin-top: 32px;
+  }
+
+  /* QUEUE CARDS */
+  .queue-list { display: flex; flex-direction: column; gap: 8px; }
+  .queue-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .queue-card.approved { border-color: var(--green); opacity: 0.6; }
+  .queue-card.skipped { border-color: var(--border); opacity: 0.4; }
+  .queue-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .queue-card-header:hover { background: rgba(255,255,255,0.02); }
+  .type-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .badge-REDDIT { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .badge-UPWORK { background: rgba(16,185,129,0.15); color: var(--green); }
+  .badge-SOCIAL { background: rgba(139,92,246,0.15); color: var(--purple); }
+  .badge-SALE { background: rgba(245,158,11,0.15); color: var(--amber); }
+
+  .queue-summary { flex: 1; font-size: 0.9rem; color: var(--text); }
+  .queue-arrow { color: var(--muted); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .queue-card.open .queue-arrow { transform: rotate(180deg); }
+
+  .queue-card-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .queue-card.open .queue-card-body { display: block; }
+
+  .field-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 6px; margin-top: 14px; }
+  .field-label:first-child { margin-top: 0; }
+
+  .source-link { color: var(--blue); font-size: 0.85rem; text-decoration: none; word-break: break-all; }
+  .source-link:hover { text-decoration: underline; }
+
+  .text-area-wrap { position: relative; }
+  textarea.readonly-field {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    resize: vertical;
+    min-height: 80px;
+    max-height: 260px;
+    outline: none;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    border-radius: 4px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, background 0.2s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.14); color: var(--text); }
+  .copy-btn.copied { color: var(--green); }
+
+  .action-row { display: flex; gap: 8px; margin-top: 14px; }
+  .btn-approve, .btn-skip {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    flex: 1;
+  }
+  .btn-approve { background: var(--green); color: #fff; }
+  .btn-skip { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .btn-approve:hover, .btn-skip:hover { opacity: 0.8; }
+  .btn-approve:disabled, .btn-skip:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* OVERNIGHT SUMMARY */
+  .summary-toggle {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: background 0.2s;
+  }
+  .summary-toggle:hover { background: rgba(255,255,255,0.04); }
+  .summary-arrow { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+  .summary-toggle.open .summary-arrow { transform: rotate(180deg); }
+  .summary-body {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 12px 16px 16px;
+  }
+  .summary-body.open { display: block; }
+  .summary-body ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .summary-body li { font-size: 0.85rem; color: var(--text); padding-left: 16px; position: relative; }
+  .summary-body li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-size: 0.75rem; top: 2px; }
+
+  /* STATUS FOOTER */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+  .status-dot.stale { background: var(--red); animation: none; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { padding: 0 16px; }
+    main { padding: 16px 12px 80px; }
+    .stat-value { font-size: 1.3rem; }
+  }
+
+  /* STATUS BADGES FOR DONE ITEMS */
+  .status-label {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .status-approved { background: rgba(16,185,129,0.15); color: var(--green); }
+  .status-skipped { background: rgba(107,107,120,0.15); color: var(--muted); }
+
+  /* QUEUE COUNT BADGE */
+  .queue-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--amber);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-screen">
+  <h1>🦾 Oscar HQ</h1>
+  <p>Enter your access code</p>
+  <form id="auth-form">
+    <input type="password" id="auth-input" placeholder="Password" autocomplete="current-password">
+    <button type="submit">Unlock</button>
+    <div id="auth-error">Incorrect password. Try again.</div>
+  </form>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <div class="header-logo">🦾 Oscar HQ</div>
+    <div class="header-updated" id="last-updated">Loading…</div>
+  </header>
+
+  <main>
+    <!-- STATS -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label"><span class="stat-icon">💰</span>Revenue</div>
+        <div class="stat-value" id="stat-revenue">$0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><span class="stat-icon">👥</span>Visitors Today</div>
+        <div class="stat-value" id="stat-visitors">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><span class="stat-icon">🔥</span>Top Click</div>
+        <div class="stat-value" id="stat-top-click" style="font-size:1rem;margin-top:4px;">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label"><span class="stat-icon">💸</span>API Spend Today</div>
+        <div class="stat-value" id="stat-api-spend">$0.00</div>
+      </div>
+    </div>
+
+    <!-- ACTION QUEUE -->
+    <div class="section-header">
+      Action Queue <span class="queue-count" id="pending-count">0</span>
+    </div>
+    <div class="queue-list" id="queue-list">
+      <div class="empty-state">Loading queue…</div>
+    </div>
+
+    <!-- OVERNIGHT SUMMARY -->
+    <div class="section-header" style="margin-top:28px;">What Oscar Did</div>
+    <div>
+      <div class="summary-toggle" id="summary-toggle">
+        <span>What Oscar did overnight ▾</span>
+        <span class="summary-arrow">▼</span>
+      </div>
+      <div class="summary-body" id="summary-body">
+        <ul id="summary-list"></ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="status-dot" id="status-dot"></div>
+    <span id="status-text">Oscar: Loading…</span>
+  </footer>
+</div>
+
+<script>
+  const BOT_TOKEN = '8701209613:AAFdCXAYNEf9vm3lddjEpH0Y2Lw6_ZlJhWk';
+  const CHAT_ID = 8753799198;
+
+  // --- AUTH ---
+  (function() {
+    if (sessionStorage.getItem('auth') === 'oscar2026') {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadDashboard();
+    }
+  })();
+
+  document.getElementById('auth-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const val = document.getElementById('auth-input').value;
+    if (val === 'oscar2026') {
+      sessionStorage.setItem('auth', 'oscar2026');
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadDashboard();
+    } else {
+      document.getElementById('auth-error').style.display = 'block';
+      document.getElementById('auth-input').value = '';
+      document.getElementById('auth-input').focus();
+    }
+  });
+
+  // --- DATA ---
+  let dashboardData = null;
+
+  async function loadDashboard() {
+    try {
+      const res = await fetch('/data/dashboard.json?t=' + Date.now());
+      const data = await res.json();
+      dashboardData = data;
+      renderDashboard(data);
+    } catch (err) {
+      console.error('Failed to load dashboard:', err);
+      document.getElementById('last-updated').textContent = 'Error loading data';
+    }
+  }
+
+  setInterval(loadDashboard, 60000);
+
+  // --- RENDER ---
+  function renderDashboard(data) {
+    // Header
+    const updatedDate = new Date(data.updated);
+    document.getElementById('last-updated').textContent = 'Updated: ' + updatedDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    // Stats
+    document.getElementById('stat-revenue').textContent = '$' + (data.stats.revenue || 0).toLocaleString();
+    document.getElementById('stat-visitors').textContent = (data.stats.visitors_today || 0).toLocaleString();
+    document.getElementById('stat-top-click').textContent = data.stats.top_click || '—';
+    document.getElementById('stat-api-spend').textContent = '$' + (data.stats.api_spend_today || 0).toFixed(2);
+
+    // Queue
+    renderQueue(data.queue || []);
+
+    // Summary
+    const summaryList = document.getElementById('summary-list');
+    summaryList.innerHTML = '';
+    (data.overnight_summary || []).forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      summaryList.appendChild(li);
+    });
+
+    // Oscar status
+    const heartbeat = new Date(data.oscar_status && data.oscar_status.last_heartbeat);
+    const minAgo = Math.floor((Date.now() - heartbeat.getTime()) / 60000);
+    const dot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text');
+    const isAlive = minAgo < 10;
+    dot.className = 'status-dot' + (isAlive ? '' : ' stale');
+    const state = (data.oscar_status && data.oscar_status.state) || 'unknown';
+    statusText.textContent = `Oscar: ${state.charAt(0).toUpperCase() + state.slice(1)} | Last heartbeat: ${minAgo < 1 ? 'just now' : minAgo + ' min ago'}`;
+  }
+
+  function renderQueue(queue) {
+    const container = document.getElementById('queue-list');
+    const approvedIds = JSON.parse(localStorage.getItem('approved_items') || '[]');
+    const skippedIds = JSON.parse(localStorage.getItem('skipped_items') || '[]');
+
+    // Apply local state
+    queue.forEach(item => {
+      if (approvedIds.includes(item.id)) item.status = 'approve';
+      if (skippedIds.includes(item.id)) item.status = 'skip';
+    });
+
+    // Sort: SALE first, then pending, then done
+    const pending = queue.filter(i => i.status === 'pending');
+    const done = queue.filter(i => i.status !== 'pending');
+
+    document.getElementById('pending-count').textContent = pending.length;
+
+    if (queue.length === 0) {
+      container.innerHTML = '<div class="empty-state">Queue is empty. Oscar is working on it. 🦾</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+    [...pending, ...done].forEach(item => {
+      container.appendChild(createQueueCard(item));
+    });
+  }
+
+  function createQueueCard(item) {
+    const card = document.createElement('div');
+    card.className = 'queue-card' + (item.status !== 'pending' ? (item.status === 'approve' ? ' approved' : ' skipped') : '');
+    card.dataset.id = item.id;
+
+    const isDone = item.status !== 'pending';
+
+    card.innerHTML = `
+      <div class="queue-card-header">
+        <span class="type-badge badge-${item.type}">${item.type}</span>
+        <span class="queue-summary">${escHtml(item.summary)}</span>
+        ${isDone ? `<span class="status-label ${item.status === 'approve' ? 'status-approved' : 'status-skipped'}">${item.status === 'approve' ? '✓ Approved' : '↷ Skipped'}</span>` : ''}
+        <span class="queue-arrow">▼</span>
+      </div>
+      <div class="queue-card-body">
+        ${item.source_url && item.source_url !== 'https://x.com' ? `
+          <div class="field-label">Source</div>
+          <a href="${escHtml(item.source_url)}" target="_blank" rel="noopener" class="source-link">${escHtml(item.source_url)}</a>
+        ` : ''}
+        <div class="field-label">Original</div>
+        <textarea class="readonly-field" readonly rows="3">${escHtml(item.original_post || '')}</textarea>
+
+        <div class="field-label">Draft</div>
+        <div class="text-area-wrap">
+          <textarea class="readonly-field" readonly rows="6">${escHtml(item.draft || '')}</textarea>
+          <button class="copy-btn" onclick="copyDraft(this)">Copy</button>
+        </div>
+
+        ${!isDone ? `
+          <div class="action-row">
+            <button class="btn-approve" onclick="handleApprove('${escHtml(item.id)}')">✓ Approve</button>
+            <button class="btn-skip" onclick="handleSkip('${escHtml(item.id)}')">✗ Skip</button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    card.querySelector('.queue-card-header').addEventListener('click', function() {
+      card.classList.toggle('open');
+    });
+
+    return card;
+  }
+
+  function copyDraft(btn) {
+    const ta = btn.previousElementSibling;
+    navigator.clipboard.writeText(ta.value).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  async function handleApprove(id) {
+    const item = dashboardData && dashboardData.queue.find(i => i.id === id);
+    if (!item) return;
+
+    // Save to localStorage
+    const approved = JSON.parse(localStorage.getItem('approved_items') || '[]');
+    if (!approved.includes(id)) approved.push(id);
+    localStorage.setItem('approved_items', JSON.stringify(approved));
+
+    // Update card UI
+    const card = document.querySelector(`.queue-card[data-id="${id}"]`);
+    if (card) {
+      card.classList.add('approved');
+      const actionRow = card.querySelector('.action-row');
+      if (actionRow) actionRow.innerHTML = '<span class="status-label status-approved">✓ Approved</span>';
+    }
+
+    // Send Telegram notification
+    const msg = `✅ Approved: ${item.summary}\n\nDraft:\n${item.draft.slice(0, 800)}${item.draft.length > 800 ? '…' : ''}\n\nSource: ${item.source_url || 'N/A'}`;
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({chat_id: CHAT_ID, text: msg})
+      });
+    } catch(e) {
+      console.error('Telegram notify failed:', e);
+    }
+  }
+
+  async function handleSkip(id) {
+    const item = dashboardData && dashboardData.queue.find(i => i.id === id);
+    if (!item) return;
+
+    // Save to localStorage
+    const skipped = JSON.parse(localStorage.getItem('skipped_items') || '[]');
+    if (!skipped.includes(id)) skipped.push(id);
+    localStorage.setItem('skipped_items', JSON.stringify(skipped));
+
+    // Update card UI
+    const card = document.querySelector(`.queue-card[data-id="${id}"]`);
+    if (card) {
+      card.classList.add('skipped');
+      const actionRow = card.querySelector('.action-row');
+      if (actionRow) actionRow.innerHTML = '<span class="status-label status-skipped">↷ Skipped</span>';
+    }
+  }
+
+  // --- OVERNIGHT SUMMARY TOGGLE ---
+  document.getElementById('summary-toggle').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.getElementById('summary-body').classList.toggle('open');
+  });
+
+  // --- UTILS ---
+  function escHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
