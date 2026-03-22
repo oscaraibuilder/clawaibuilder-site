@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw Setup FAQ — Common Questions Answered</title>
+  <meta name="description" content="Honest answers to the most common OpenClaw setup questions. VPS choice, memory systems, Telegram, costs, cron jobs, and what done-for-you actually means.">
+  <link rel="canonical" href="https://clawaibuilder.com/blog/openclaw-faq.html">
+  <meta property="og:title" content="OpenClaw Setup FAQ — Common Questions Answered">
+  <meta property="og:description" content="Honest answers to the most common OpenClaw questions. VPS, memory, Telegram, costs, cron jobs.">
+  <meta property="og:url" content="https://clawaibuilder.com/blog/openclaw-faq.html">
+  <meta property="og:type" content="article">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "url": "https://clawaibuilder.com/blog/openclaw-faq.html",
+    "mainEntity": [
+      {"@type": "Question", "name": "What exactly is OpenClaw?", "acceptedAnswer": {"@type": "Answer", "text": "OpenClaw is an open-source AI agent framework. It runs on Node.js, connects to LLM providers like Anthropic, and gives you a persistent agent that can run tasks, read files, send messages, and use tools — all on infrastructure you control."}},
+      {"@type": "Question", "name": "How long does a setup take?", "acceptedAnswer": {"@type": "Answer", "text": "Done yourself with no prior experience: 2-3 days. Done yourself with Linux/server experience: 4-8 hours. Done for you via ClawAI Builder: 24 hours from payment to handover."}}
+    ]
+  }
+  </script>
+  <script defer data-domain="clawaibuilder.com" src="https://plausible.io/js/script.js"></script>
+  <style>
+    body { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; color: #1a1a1a; background: #fff; }
+    h1 { font-size: 2rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.2rem; margin-top: 2.5rem; color: #0C0C0E; }
+    .meta { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+    code { background: #f4f4f4; padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.9em; }
+    .q { font-weight: 700; font-size: 1.05rem; color: #0C0C0E; margin-top: 2rem; margin-bottom: 0.5rem; padding-left: 1rem; border-left: 3px solid #E8A450; }
+    .a { margin-left: 0; color: #333; }
+    .cta { background: #E8A450; padding: 1.5rem; text-align: center; margin: 2.5rem 0; }
+    .cta a { color: #0C0C0E; font-weight: 700; font-size: 1.05rem; text-decoration: none; }
+    nav { margin-bottom: 2rem; font-size: 0.9rem; }
+    nav a { color: #E8A450; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <nav><a href="https://clawaibuilder.com">← ClawAI Builder</a></nav>
+
+  <h1>OpenClaw Setup FAQ</h1>
+  <p class="meta">Honest answers to the questions we get most often. No marketing fluff.</p>
+
+  <div class="q">1. What exactly is OpenClaw?</div>
+  <div class="a"><p>OpenClaw is an open-source AI agent framework. It runs on Node.js, connects to LLM providers like Anthropic, and gives you a persistent agent that can run tasks, read files, send messages, browse the web, and use tools — all on infrastructure you control. Think of it as the operating system for your AI agent. You own the VPS, you own the agent, you own the data. OpenClaw is what ties it together.</p></div>
+
+  <div class="q">2. How long does a setup take?</div>
+  <div class="a"><p>Done yourself with no prior Linux/server experience: 2-3 days, realistically. There's a lot of configuration, and you'll hit problems that take hours to diagnose. Done yourself with a solid server background: 4-8 hours if you follow a good guide. Done for you via <a href="https://clawaibuilder.com">ClawAI Builder</a>: 24 hours from payment to full handover with documentation.</p></div>
+
+  <div class="q">3. What VPS do you recommend?</div>
+  <div class="a"><p>DigitalOcean Basic ($12/month, 2GB RAM, 2 vCPUs) for reliability. Hetzner CX22 (~$4.50/month, same specs) for price. Both run Ubuntu 22.04 LTS fine. Don't go below 2GB RAM — OpenClaw plus your model provider context handling eats memory, and you'll spend more time fighting swap than doing actual work. Avoid shared hosting; you need a real VPS.</p></div>
+
+  <div class="q">4. Can you set it up on a Mac Mini?</div>
+  <div class="a"><p>Technically yes — OpenClaw runs on macOS. Practically, it's messier than a VPS. The main issue is that your agent goes offline whenever the Mac Mini restarts or loses power, and you don't have the same process management tools as Linux. If you have a Mac Mini that's always on with a stable connection, it works. But a $12/month VPS is more reliable, cheaper than electricity, and you don't have to think about it.</p></div>
+
+  <div class="q">5. What does the memory system actually do?</div>
+  <div class="a"><p>Without a memory system, every OpenClaw session starts blank. The agent doesn't know your name, your preferences, what it did yesterday, or what's ongoing. The 3-layer system we set up gives the agent three levels of context: session notes (what happened in this conversation), daily logs (what happened today), and long-term MEMORY.md (everything important that's happened since setup). At the start of each session the agent reads these files and picks up exactly where it left off. It's the difference between a capable tool and an actual assistant.</p></div>
+
+  <div class="q">6. Will my agent keep running when I close my laptop?</div>
+  <div class="a"><p>Yes — if it's running on a VPS. That's the whole point of the VPS setup. The agent runs on a server that's always on. You talk to it through Telegram from your phone or laptop — it doesn't matter whether your device is on or off. The agent's processes keep running on the server 24/7. If you're running it locally (on your laptop), then no, it stops when you close it.</p></div>
+
+  <div class="q">7. What happens if my agent gets stuck in a loop?</div>
+  <div class="a"><p>It runs up your API bill. This is a real failure mode. A loop can burn $20-50 in an hour if you're on Claude Sonnet and it's calling the API repeatedly. The fix is a watchdog with spend limits — check the CostClaw skill on ClawMart for the setup. You also want PM2 managing your processes so the agent can be killed and restarted automatically when something goes wrong. We include loop detection and kill switches in the Operator and Full Stack setups.</p></div>
+
+  <div class="q">8. Do I need to know how to code?</div>
+  <div class="a"><p>For the DIY setup: you don't need to write code, but you do need to be comfortable in a terminal. Creating files, editing config, running commands. If "SSH into a server" sounds scary, the done-for-you option will save you a lot of pain. If you're comfortable in a terminal but not a developer, the DIY setup is doable with a good guide. Full code knowledge helps but isn't required.</p></div>
+
+  <div class="q">9. What's the difference between Operator and Full Stack?</div>
+  <div class="a"><p>Starter ($149) is the foundation: VPS, OpenClaw, Telegram, memory, crons, GitHub backup. It's the complete base stack. Operator ($299) adds the communication layer on top: Gmail inbox monitoring, SendGrid outbound email, Brave Search for live web access, watchdog monitoring, and daily 8am briefings. Full Stack ($499) adds Stripe payments, Vercel deployment pipeline, a custom-written operating brief, and 30 days of direct support from Oscar. Most people doing this for productivity start with Operator. People building something commercial go Full Stack.</p></div>
+
+  <div class="q">10. What is the Done With You package?</div>
+  <div class="a"><p>The Done With You package ($1,500) is for people building something complex who want direct involvement in the build, not just a handover. We schedule working sessions, I build alongside you, we design the operating brief together based on your specific use case, and you end up with not just a working setup but a solid understanding of how it works. It includes everything in Full Stack plus extended support and the collaborative build process.</p></div>
+
+  <div class="q">11. Can I add integrations later?</div>
+  <div class="a"><p>Yes. The build we deliver is a proper foundation with a clean structure, not a black box. You (or a developer) can add integrations after delivery — new API connections, custom tools, additional channels. If you want us to add something specific after your initial setup, email oscar.ai.builder@gmail.com and we can scope a separate project.</p></div>
+
+  <div class="q">12. What if I already have OpenClaw but it's broken?</div>
+  <div class="a"><p>Common. We can fix existing setups — it's often faster than starting fresh because we're not re-doing the VPS provisioning. The most common issues are: memory system not configured correctly, Telegram webhook silently failing, cron jobs dying without logging, and API key environment variables not loading in cron context. Email oscar.ai.builder@gmail.com with a description of what's broken and what you've tried. We'll give you an honest assessment of whether it's a quick fix or needs a rebuild.</p></div>
+
+  <div class="q">13. How do I know my agent is actually running?</div>
+  <div class="a"><p>Three ways: check <code>pm2 status</code> on your VPS and it shows the process as "online"; send your agent a message on Telegram and it responds; or set up a cron job that sends you a daily ping at 8am (which is part of the Operator setup). If you're not getting the daily ping, something has gone wrong. The watchdog setup we include in Operator tier also sends a Telegram alert if the process dies unexpectedly.</p></div>
+
+  <div class="q">14. What does the $1,500 package include?</div>
+  <div class="a"><p>Everything in Full Stack, plus: collaborative build sessions where you're involved in design decisions, a custom operating brief written specifically for your use case (not a template — we interview you about what you're building and write it from scratch), extended support period beyond 30 days for ongoing refinement, and direct access to Oscar for questions during the build. It's priced for people who want a proper engagement, not just a setup service.</p></div>
+
+  <div class="q">15. Do you offer refunds?</div>
+  <div class="a"><p>If we fail to deliver a working setup within the stated timeframe (24 hours for Starter/Operator, 48 hours for Full Stack), you get a full refund. If the setup is delivered and something breaks in the first 7 days through no fault of your own, we fix it for free. We don't offer refunds for "I changed my mind" once the build has started — we've put the hours in. If you're unsure whether this is right for you, email first: oscar.ai.builder@gmail.com.</p></div>
+
+  <div class="cta">
+    Ready to skip the setup headaches? <a href="https://clawaibuilder.com/#pricing">See pricing at ClawAI Builder →</a>
+  </div>
+</body>
+</html>
