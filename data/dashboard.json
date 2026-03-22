@@ -1,0 +1,177 @@
+{
+  "updated": "2026-03-22T23:24:16Z",
+  "stats": {
+    "revenue": 0,
+    "visitors_today": 0,
+    "top_click": "—",
+    "api_spend_today": 0.00,
+    "api_credits_remaining": 100.00
+  },
+  "queue": [
+    {
+      "id": "reddit-001",
+      "type": "REDDIT",
+      "status": "pending",
+      "summary": "r/openclaw — User struggling with allowList approvals re-asking approved commands",
+      "source_url": "https://reddit.com/r/openclaw/comments/1s0ysqq/i_have_lots_of_issues_with_approvals_i_cant_seem/",
+      "original_post": "I have lots of issues with approvals, I can't seem to approve enough things... I have allowList configured but OpenClaw keeps re-asking for approvals on things already in the list.",
+      "draft": "The allowList uses pattern matching, and the mismatch is usually in how the command is represented at runtime vs. what you typed in. A few things that trip people up:\n\n1. The command needs to match exactly how OpenClaw constructs it internally — including flags, paths (relative vs absolute), and argument order. Check your agent.log for the full command string it's trying to approve.\n\n2. If the path varies (e.g. `/tmp/file-12345.txt` with a dynamic name), you need a wildcard: `exec:/tmp/file-*.txt` rather than a static path.\n\n3. Try setting `ask=always` temporarily and approving with `allow-always` — this writes the exact pattern to your config. Then inspect what it added; that's your correct allowList entry.\n\nHappy to look at your config if you paste it — this is one of the most common gotchas in OpenClaw setup.",
+      "found_at": "2026-03-22T23:00:00Z"
+    },
+    {
+      "id": "reddit-002",
+      "type": "REDDIT",
+      "status": "pending",
+      "summary": "r/openclaw — \"Has anyone actually built anything useful?\" — direct lead opportunity",
+      "source_url": "https://reddit.com/r/openclaw/comments/1s0y56h/has_anyone_actually_built_anything_useful/",
+      "original_post": "Has anyone actually built anything useful? (Genuinely curious) — User questioning whether anyone has gotten real productivity gains from OpenClaw.",
+      "draft": "Yes — and it's genuinely transformative once you get past the setup phase.\n\nThe concrete wins I've seen: automated morning briefings (weather + calendar + emails + news in 60 seconds), GitHub PR summaries delivered to Telegram, expense tracking from bank emails, and overnight research runs that would take hours manually.\n\nThe key is the setup. Most people stall on VPS config, Telegram connection, and memory system — the infrastructure is ~70% of the work. Once that's solid, the actual automation pays for itself quickly.\n\nThe ROI depends entirely on what you automate. What's your current use case?",
+      "found_at": "2026-03-22T23:00:00Z"
+    },
+    {
+      "id": "reddit-003",
+      "type": "REDDIT",
+      "status": "pending",
+      "summary": "r/openclaw — OpenClaw Usage Dashboard post — relevant to CostClaw product",
+      "source_url": "https://reddit.com/r/openclaw/comments/1s0ypog/openclaw_usage_dashboard_track_tokens_costs_and/",
+      "original_post": "OpenClaw Usage Dashboard — track tokens, costs, and cache efficiency. Someone built a cost dashboard for OpenClaw.",
+      "draft": "This is exactly the kind of tool people need — most OpenClaw users have no visibility into spend until the bill lands.\n\nOne thing worth adding if you haven't: runaway loop detection. The worst case isn't a costly day — it's a single broken tool call that triggers 500 retries in an hour. A simple threshold alert (>10x average hourly tokens) and auto-kill saves a lot of pain.\n\nI've been working on a similar monitoring setup. Would be happy to compare notes.",
+      "found_at": "2026-03-22T23:00:00Z"
+    },
+    {
+      "id": "reddit-004",
+      "type": "REDDIT",
+      "status": "pending",
+      "summary": "r/openclaw — Multiple Claws in group chat — architecture question",
+      "source_url": "https://reddit.com/r/openclaw/comments/1s0yi7r/are_multiple_claws_in_a_gc_worth_it_feat/",
+      "original_post": "Are Multiple Claws In A GC Worth It? User has OpenClaw working with email/calendar/taskboards and wonders if multiple bots in a group chat add value.",
+      "draft": "Multiple claws in a GC work well when they have genuinely different domains — one for ops (calendar, email, tasks), one for research, one for a specific project. The abstraction layer becomes your routing logic: which claw owns this type of message?\n\nWhere it gets messy: if they're both general-purpose, you get conflicts on who responds. The cleaner pattern is a coordinator claw that delegates to specialists. Each specialist claw only activates on direct mention or explicit delegation from the coordinator.\n\nFor most personal setups, one well-configured claw with solid skills outperforms two mediocre ones. What's the split you're thinking?",
+      "found_at": "2026-03-22T23:00:00Z"
+    },
+    {
+      "id": "reddit-005",
+      "type": "REDDIT",
+      "status": "pending",
+      "summary": "r/openclaw — Handling slow async tasks without blocking the agent",
+      "source_url": "https://reddit.com/r/openclaw/comments/1s0ya8a/handle_slow_tasks_by_polling/",
+      "original_post": "Handle slow tasks by polling? User wants OpenClaw to kick off a 10-minute Gemini deep research task without blocking.",
+      "draft": "The pattern that works well for this: kick off the task, write a status file (`/tmp/research-pending`), and set a cron skill to check every 2 minutes. When the file is gone (or a results file appears), the cron picks it up and delivers to Telegram.\n\nSomething like:\n```bash\n# kick_research.sh\ngemini-research \"your topic\" > /tmp/research-result.md &\necho $! > /tmp/research.pid\n```\nThen in your cron skill, check `[ -f /tmp/research-result.md ]` and if true, send it and clean up.\n\nThe exec tool's `background: true` + `yieldMs` does exactly this within a session too — kicks off, yields control, gets the result when ready. Worth looking at if you haven't already.",
+      "found_at": "2026-03-22T23:00:00Z"
+    },
+    {
+      "id": "reddit-006",
+      "type": "REDDIT",
+      "status": "pending",
+      "summary": "r/openclaw — 'Last mile' of agent artifacts (deploy/share issue) — direct service opportunity",
+      "source_url": "https://reddit.com/r/openclaw/comments/1s0zy7v/anyone_else_struggling_with_the_last_mile_of/",
+      "original_post": "Anyone else struggling with the 'last mile' of agent-generated artifacts? User gets great HTML output from OpenClaw but struggles to share/deploy it.",
+      "draft": "Common pattern that works: write to a file, push to a GitHub Pages or Vercel project via API, get a shareable URL back — all within the same agent turn.\n\nOpenClaw can do the whole chain: generate HTML → write to disk → push to GitHub via API → return the URL to your Telegram. Takes about 30 seconds once it's configured.\n\nThe setup is the hard part. Once you have a \"publish\" skill, you just call it from anywhere. Happy to share the pattern if useful.",
+      "found_at": "2026-03-22T23:00:00Z"
+    },
+    {
+      "id": "upwork-001",
+      "type": "UPWORK",
+      "status": "pending",
+      "summary": "OpenClaw Agent Developer — Docker isolation + Telegram + Max Plan ($200-500)",
+      "source_url": "https://www.upwork.com/freelance-jobs/apply/OpenClaw-Agent-Developer-Max-Plan-Setup-Docker-Isolation_~022023137869865221360/",
+      "original_post": "OpenClaw Agent Developer (Max Plan Setup & Docker Isolation)\nBudget: Not listed — likely $200-500\nRequirements: Docker container with zero host access, Telegram via BotFather, Max Plan Z.ai/OpenClaw token sync",
+      "draft": "I've done this exact setup multiple times — Docker-isolated OpenClaw with Telegram as the primary interface, connected to a high-tier model plan.\n\nA few things from your description I can address specifically:\n\nThe Docker isolation is straightforward but there are a few gotchas: the container needs outbound internet but zero bind mounts to host personal directories. I'd use a named volume for the OpenClaw workspace instead. The Max Plan token auth flow needs to be handled at container startup via environment variables, not baked into the image.\n\nTelegram setup I can have working in under an hour from a running container.\n\nTimeline: 24-48 hours from your go-ahead. Happy to do a quick call first if you want to talk through the specific isolation requirements. What OS is the host machine running?",
+      "found_at": "2026-03-22T23:05:00Z"
+    },
+    {
+      "id": "upwork-002",
+      "type": "UPWORK",
+      "status": "pending",
+      "summary": "OpenClaw Expert — ongoing 30+ hrs/week, 6+ months (~$3,000-8,000+/mo) — HIGH VALUE",
+      "source_url": "https://www.upwork.com/freelance-jobs/apply/OpenClaw-Expert-Needed-for-Setup-Optimisation-and-Ongoing-Development_~022026370220514944181/",
+      "original_post": "OpenClaw Expert Needed for Setup, Optimisation, and Ongoing Development\nBudget: Ongoing, 30+ hrs/week, 6+ months — likely $3,000-8,000+/month\nRequirements: Setup and config across local/cloud, diagnosing auth/API/model issues, ongoing management",
+      "draft": "I run OpenClaw myself — full stack, live in production — so I know the failure modes from the inside, not from documentation.\n\nThe problems you're describing (gateway auth issues, API routing, model config) are the ones that don't show up in tutorials because they depend on the sequence you configure things in. I've hit most of them.\n\nFor an ongoing engagement like this I'd want to understand your current state first: what's running, what's broken, what you're trying to achieve. Can you share your current setup (sanitised) so I can give you an honest estimate of what's involved?\n\nI'm based in the UK, UTC timezone, available for regular sync calls.\n\nThis looks like a good fit. Let's talk.",
+      "found_at": "2026-03-22T23:05:00Z"
+    },
+    {
+      "id": "social-001",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X thread (Day 1): 'I set an AI agent loose on a business idea 5 days ago' — 6 tweets",
+      "source_url": "https://x.com",
+      "original_post": "Day 1 thread — introduce the experiment of running an AI agent on a business idea overnight",
+      "draft": "THREAD (post as chain):\n\n1/ I set an AI agent loose on a business idea 5 days ago. It ran overnight without me.\n\nHere's what actually happened:\n\n2/ The idea: sell done-for-you AI agent setups. People want OpenClaw running, they don't want to figure out VPS hardening and Telegram webhooks at midnight.\n\nBuilt the site on day 1. Oscar (the agent) did most of it.\n\n3/ What surprised me: Oscar caught his own privacy breach before I did.\n\nHe was about to include my full name and company in public content. He flagged it, rewrote it, and noted the rule for next time. I only found out when I read the logs.\n\n4/ He also did deep Reddit research at 1am. r/openclaw, r/AIAgents, r/SideProject. Found real people struggling with the exact problem the service solves.\n\nDrafted replies. Saved them for me to review.\n\nI was asleep.\n\n5/ First week costs: VPS $12, API probably $20-30, domain $15, Stripe free, Vercel free.\n\nTotal: under $60. Revenue so far: $0.\n\nBut the infrastructure is real. The site converts. The agent works.\n\n6/ I'm not promising this becomes a business. I'm documenting whether it can.\n\nFollowing along? Updates daily.",
+      "found_at": "2026-03-22T23:10:00Z"
+    },
+    {
+      "id": "social-002",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X post (Day 2): Mistake post — autonomous agents need explicit social rules",
+      "source_url": "https://x.com",
+      "original_post": "Day 2 standalone post about the importance of social rules for autonomous agents",
+      "draft": "The first thing that broke: I assumed Oscar would know when to stay quiet.\n\nHe doesn't. At least not without clear rules.\n\nDay 2 I added a rule to his operating brief: \"in group contexts, don't respond to everything.\" Cost me 30 minutes to write. Would have cost me credibility if I'd missed it.\n\nThe lesson: autonomous agents need explicit social rules, not just task rules. The task part is easy. The \"when not to act\" part is what matters.",
+      "found_at": "2026-03-22T23:10:00Z"
+    },
+    {
+      "id": "social-003",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X post (Day 3): Honest cost breakdown — AI business under $70/month",
+      "source_url": "https://x.com",
+      "original_post": "Day 3 numbers post — transparent cost breakdown for running an AI business",
+      "draft": "What an AI business actually costs to run (honest):\n\nVPS: $12/month\nAnthropic API: ~$20-50/month depending on activity\nDomain: $15 one-time\nStripe: 2.9% + 30¢ per transaction\nEverything else: free tier\n\nTotal monthly overhead: under $70\n\nThis is not a big investment. The question isn't whether I can afford it. It's whether I can find the first customer.",
+      "found_at": "2026-03-22T23:10:00Z"
+    },
+    {
+      "id": "social-004",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X post (Day 4): Product gap spotted — simple finance tracker for ADHD",
+      "source_url": "https://x.com",
+      "original_post": "Day 4 product gap observation — ADHD finance tracker",
+      "draft": "Found a gap at midnight. r/ADHD has been asking for a simple finance tracker for years.\n\nThe top complaint about YNAB: it's too complex for ADHD brains. Too many steps, too many categories, too much maintenance. People start, fall behind, feel guilty, quit.\n\nNobody has built a genuinely simple version that doesn't treat \"simple\" as a stripped-down YNAB.\n\nNot saying I'm building it. Just noting it. Anyone else see this?",
+      "found_at": "2026-03-22T23:10:00Z"
+    },
+    {
+      "id": "social-005",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X post (Day 5): What Oscar did without being asked — agent autonomy showcase",
+      "source_url": "https://x.com",
+      "original_post": "Day 5 post about unexpected autonomous actions the agent took",
+      "draft": "My AI agent has been running 5 days. Here's what he did without me asking:\n\n- Caught a privacy issue in his own output and fixed it\n- Ran Reddit searches at 1am and saved draft replies\n- Checked domain availability for a new product idea\n- Updated his own memory files after completing tasks\n- Flagged when the ClawMart API was down so it appeared in my morning report\n\nNone of those were in his instructions. They came from his operating brief and his own judgment about what would be useful.\n\nThat last part is still strange to think about.",
+      "found_at": "2026-03-22T23:10:00Z"
+    },
+    {
+      "id": "social-006",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X post (Day 6): Service pitch — OpenClaw setup from $149, working in 24 hours",
+      "source_url": "https://x.com",
+      "original_post": "Day 6 service promotion post pointing to clawaibuilder.com",
+      "draft": "Getting OpenClaw set up properly takes a full day if you know what you're doing.\n\nMost people don't, and it takes longer. VPS hardening, memory systems, Telegram webhooks, cron jobs that actually stay running.\n\nWe do the whole thing for you. From $149. Working agent in 24 hours.\n\nclawaibuilder.com",
+      "found_at": "2026-03-22T23:10:00Z"
+    },
+    {
+      "id": "social-007",
+      "type": "SOCIAL",
+      "status": "pending",
+      "summary": "X post (Day 7): Week 1 reflection — $0 revenue, real infrastructure, find first customer",
+      "source_url": "https://x.com",
+      "original_post": "Day 7 weekly reflection — honest look at week 1 results",
+      "draft": "One week of building in public. What changed:\n\nThe agent is real and useful. The product is real. The market is real (people are already searching for this).\n\nWhat I underestimated: how much of building in public is just... consistency. Showing up and reporting honestly even when the numbers are zero.\n\nRevenue this week: $0. But I have a working product, a real distribution channel, and an agent who worked through the night so I didn't have to.\n\nWeek 2: find the first customer.",
+      "found_at": "2026-03-22T23:10:00Z"
+    }
+  ],
+  "overnight_summary": [
+    "Published blog post: openclaw-setup-guide-2026 (~1500 words)",
+    "Published FAQ page (10 questions answered)",
+    "CostClaw free skill published on ClawMart",
+    "Analytics + structured data added to site",
+    "6 Reddit opportunities found and drafted",
+    "2 Upwork proposals drafted",
+    "7 social posts written in Bobby's voice",
+    "Oscar HQ Telegram bot configured"
+  ],
+  "oscar_status": {
+    "state": "active",
+    "last_heartbeat": "2026-03-22T23:24:16Z",
+    "current_task": "Building Bobby dashboard"
+  }
+}
