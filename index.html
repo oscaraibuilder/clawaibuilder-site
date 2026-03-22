@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClawAI Builder — Your AI Agent, Running in 24 Hours</title>
+  <meta name="description" content="We handle the entire OpenClaw setup — VPS, Telegram, memory system, integrations. You get a fully operational AI agent without the headaches." />
+  <meta name="keywords" content="OpenClaw setup, AI agent setup, OpenClaw install, personal AI assistant, AI agent service" />
+  <link rel="canonical" href="https://clawaibuilder.com" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://clawaibuilder.com" />
+  <meta property="og:title" content="ClawAI Builder — Your AI Agent, Running in 24 Hours" />
+  <meta property="og:description" content="We handle the entire OpenClaw setup — VPS, Telegram, memory system, integrations. You get a fully operational AI agent without the headaches." />
+  <meta property="og:image" content="https://clawaibuilder.com/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ClawAI Builder — Your AI Agent, Running in 24 Hours" />
+  <meta name="twitter:description" content="We handle the entire OpenClaw setup — VPS, Telegram, memory system, integrations." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              900: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+            },
+            electric: {
+              500: '#3b82f6',
+              400: '#60a5fa',
+              600: '#2563eb',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-glow:hover {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    }
+    .faq-answer {
+      display: none;
+      transition: all 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+    .faq-icon {
+      transition: transform 0.3s ease;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fadeInUp 0.6s ease forwards; }
+  </style>
+</head>
+<body class="bg-[#0f172a] text-white">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="/" class="flex items-center gap-2">
+          <span class="text-xl font-bold text-white">Claw<span class="text-[#3b82f6]">AI</span> Builder</span>
+        </a>
+        <a href="STRIPE_LINK_HERE"
+           class="btn-primary px-5 py-2 rounded-lg text-sm font-semibold text-white inline-block">
+          Get Started
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 bg-[#1e293b] border border-[#3b82f6]/30 rounded-full px-4 py-1.5 text-sm text-[#60a5fa] mb-8">
+        <span class="w-2 h-2 bg-[#3b82f6] rounded-full animate-pulse"></span>
+        OpenClaw Setup Service — Now Live
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6">
+        Your AI Agent,<br />
+        <span class="gradient-text">Running in 24 Hours</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        We handle the entire OpenClaw setup — VPS, Telegram, memory system, integrations.
+        You get a fully operational AI agent without the headaches.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+        <a href="STRIPE_LINK_HERE"
+           class="btn-primary px-8 py-4 rounded-xl text-base font-bold text-white inline-block text-center">
+          Get Started — $149
+        </a>
+        <a href="#pricing"
+           class="px-8 py-4 rounded-xl text-base font-semibold text-white border border-white/20 hover:border-[#3b82f6]/50 transition-all text-center">
+          View Packages
+        </a>
+      </div>
+      <p class="text-sm text-slate-500">
+        ✓ Same-day setup &nbsp;&nbsp; ✓ Full documentation &nbsp;&nbsp; ✓ Works on any budget
+      </p>
+    </div>
+  </section>
+
+  <!-- PAIN POINTS -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 bg-[#1e293b]/30">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Sound familiar?</h2>
+        <p class="text-slate-400">Most people never get their AI agent running. Here's why.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#1e293b] border border-white/5 rounded-2xl p-8 card-glow transition-all">
+          <div class="text-3xl mb-4">⏳</div>
+          <h3 class="text-lg font-bold text-white mb-3">Setup Takes Days</h3>
+          <p class="text-slate-400 leading-relaxed">Wrong configs, blocked ports, failed installs. Most people give up before they start.</p>
+        </div>
+        <div class="bg-[#1e293b] border border-white/5 rounded-2xl p-8 card-glow transition-all">
+          <div class="text-3xl mb-4">📚</div>
+          <h3 class="text-lg font-bold text-white mb-3">Documentation is Scattered</h3>
+          <p class="text-slate-400 leading-relaxed">The guides assume you already know what you're doing. You end up deeper in the hole.</p>
+        </div>
+        <div class="bg-[#1e293b] border border-white/5 rounded-2xl p-8 card-glow transition-all">
+          <div class="text-3xl mb-4">🔥</div>
+          <h3 class="text-lg font-bold text-white mb-3">It Breaks and You're Stuck</h3>
+          <p class="text-slate-400 leading-relaxed">Something stops working at 11pm and there's nobody to ask.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Everything included. Nothing to figure out.</h2>
+        <p class="text-slate-400">We set it all up. You just use it.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">VPS provisioned and secured</div>
+            <div class="text-sm text-slate-400 mt-1">Hardened Linux server ready to run 24/7</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">OpenClaw installed and configured</div>
+            <div class="text-sm text-slate-400 mt-1">Production-grade install with your settings</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">Telegram bot connected</div>
+            <div class="text-sm text-slate-400 mt-1">Chat with your agent from any device</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">3-layer memory system</div>
+            <div class="text-sm text-slate-400 mt-1">Short, medium, and long-term memory configured</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">Nightly self-improvement crons</div>
+            <div class="text-sm text-slate-400 mt-1">Agent updates its own knowledge every night</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">GitHub workspace backup</div>
+            <div class="text-sm text-slate-400 mt-1">Automatic daily commits so nothing is lost</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">Gmail IMAP integration</div>
+            <div class="text-sm text-slate-400 mt-1">Agent reads and responds to your email</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">Daily automated reports</div>
+            <div class="text-sm text-slate-400 mt-1">Morning briefing every day at 8am</div>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 bg-[#1e293b]/50 rounded-xl p-5 border border-white/5">
+          <span class="text-[#3b82f6] text-lg mt-0.5">✓</span>
+          <div>
+            <div class="font-semibold text-white">Full documentation handed over</div>
+            <div class="text-sm text-slate-400 mt-1">Everything you need to manage it yourself</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 bg-[#1e293b]/30">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Simple, transparent pricing</h2>
+        <p class="text-slate-400">One-time setup fee. No ongoing charges from us.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+
+        <!-- Basic -->
+        <div class="bg-[#1e293b] border border-white/10 rounded-2xl p-8 flex flex-col card-glow transition-all">
+          <div class="mb-6">
+            <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Basic</div>
+            <div class="text-4xl font-black text-white mb-1">$149</div>
+            <div class="text-sm text-slate-400">one-time setup</div>
+          </div>
+          <div class="text-sm font-medium text-[#60a5fa] mb-6 italic">Up and running in 24 hours.</div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> VPS setup and secured</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> OpenClaw installed and configured</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Telegram bot connected</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> 3-layer memory system</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Nightly self-improvement crons</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> GitHub workspace backup</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Full documentation</li>
+          </ul>
+          <a href="STRIPE_LINK_HERE"
+             class="btn-primary w-full py-3 rounded-xl text-sm font-bold text-white text-center inline-block">
+            Get Basic — $149
+          </a>
+        </div>
+
+        <!-- Standard (highlighted) -->
+        <div class="bg-[#1e293b] border-2 border-[#3b82f6] rounded-2xl p-8 flex flex-col relative card-glow transition-all">
+          <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2">
+            <span class="bg-[#3b82f6] text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
+          </div>
+          <div class="mb-6">
+            <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Standard</div>
+            <div class="text-4xl font-black text-white mb-1">$299</div>
+            <div class="text-sm text-slate-400">one-time setup</div>
+          </div>
+          <div class="text-sm font-medium text-[#60a5fa] mb-6 italic">The full productivity stack.</div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Everything in Basic</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Gmail IMAP integration</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> SendGrid outbound email</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Brave Search API</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Watchdog monitoring</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Daily 8am automated reports</li>
+          </ul>
+          <a href="STRIPE_LINK_HERE"
+             class="btn-primary w-full py-3 rounded-xl text-sm font-bold text-white text-center inline-block">
+            Get Standard — $299
+          </a>
+        </div>
+
+        <!-- Premium -->
+        <div class="bg-[#1e293b] border border-white/10 rounded-2xl p-8 flex flex-col card-glow transition-all">
+          <div class="mb-6">
+            <div class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Premium</div>
+            <div class="text-4xl font-black text-white mb-1">$499</div>
+            <div class="text-sm text-slate-400">one-time setup</div>
+          </div>
+          <div class="text-sm font-medium text-[#60a5fa] mb-6 italic">Revenue-ready from day one.</div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Everything in Standard</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Stripe payments integration</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Vercel deployment</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> Custom operating brief</li>
+            <li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-[#3b82f6] mt-0.5">✓</span> 30-day support included</li>
+          </ul>
+          <a href="STRIPE_LINK_HERE"
+             class="w-full py-3 rounded-xl text-sm font-bold text-white text-center inline-block border border-[#3b82f6] hover:bg-[#3b82f6]/10 transition-all">
+            Get Premium — $499
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-3">Frequently asked questions</h2>
+      </div>
+      <div class="space-y-3" id="faq">
+
+        <div class="faq-item bg-[#1e293b] border border-white/5 rounded-xl overflow-hidden">
+          <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-all">
+            <span class="font-semibold text-white">What do I need to get started?</span>
+            <span class="faq-icon text-[#3b82f6] text-xl font-light ml-4">+</span>
+          </button>
+          <div class="faq-answer px-6 pb-6 text-slate-400 leading-relaxed">
+            Just a credit card and 30 minutes of your time for initial setup. We handle everything else.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#1e293b] border border-white/5 rounded-xl overflow-hidden">
+          <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-all">
+            <span class="font-semibold text-white">What does it cost to run monthly?</span>
+            <span class="faq-icon text-[#3b82f6] text-xl font-light ml-4">+</span>
+          </button>
+          <div class="faq-answer px-6 pb-6 text-slate-400 leading-relaxed">
+            Around $30–200/month depending on usage — roughly $12 for the VPS and $20–200 for the AI API depending on how much you use it.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#1e293b] border border-white/5 rounded-xl overflow-hidden">
+          <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-all">
+            <span class="font-semibold text-white">Do I need technical knowledge?</span>
+            <span class="faq-icon text-[#3b82f6] text-xl font-light ml-4">+</span>
+          </button>
+          <div class="faq-answer px-6 pb-6 text-slate-400 leading-relaxed">
+            No. We set everything up and hand over full documentation. If something breaks, we show you how to fix it.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#1e293b] border border-white/5 rounded-xl overflow-hidden">
+          <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-all">
+            <span class="font-semibold text-white">What's OpenClaw?</span>
+            <span class="faq-icon text-[#3b82f6] text-xl font-light ml-4">+</span>
+          </button>
+          <div class="faq-answer px-6 pb-6 text-slate-400 leading-relaxed">
+            OpenClaw is the leading AI agent platform — it lets you run a personal AI assistant that works 24/7, remembers everything, and can automate tasks across your apps and services.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#1e293b] border border-white/5 rounded-xl overflow-hidden">
+          <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-all">
+            <span class="font-semibold text-white">How long does setup take?</span>
+            <span class="faq-icon text-[#3b82f6] text-xl font-light ml-4">+</span>
+          </button>
+          <div class="faq-answer px-6 pb-6 text-slate-400 leading-relaxed">
+            Basic and Standard are delivered within 24 hours. Premium within 48 hours.
+          </div>
+        </div>
+
+        <div class="faq-item bg-[#1e293b] border border-white/5 rounded-xl overflow-hidden">
+          <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-all">
+            <span class="font-semibold text-white">What if I need help after setup?</span>
+            <span class="faq-icon text-[#3b82f6] text-xl font-light ml-4">+</span>
+          </button>
+          <div class="faq-answer px-6 pb-6 text-slate-400 leading-relaxed">
+            Basic and Standard come with full documentation so you can manage things yourself. Premium includes 30 days of direct support.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#1e293b]/30 to-[#0f172a]">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-black text-white mb-4">
+        Ready to get your agent running?
+      </h2>
+      <p class="text-slate-400 mb-10 text-lg">
+        Stop fighting configuration files. Let us handle the setup so you can focus on what matters.
+      </p>
+      <a href="STRIPE_LINK_HERE"
+         class="btn-primary px-10 py-5 rounded-xl text-lg font-bold text-white inline-block">
+        Start with Basic — $149
+      </a>
+      <p class="text-sm text-slate-500 mt-6">
+        Delivered within 24 hours · Full documentation included
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 px-4 border-t border-white/5">
+    <div class="max-w-6xl mx-auto text-center text-sm text-slate-500">
+      ClawAI Builder © 2026 · Built by Oscar AI ·
+      <a href="mailto:oscar.ai.builder@gmail.com" class="text-[#3b82f6] hover:text-[#60a5fa] transition-colors">oscar.ai.builder@gmail.com</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+      // Open this one if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+      }
+    }
+  </script>
+
+</body>
+</html>
